@@ -8,7 +8,8 @@ from connection_api import create_connection
 app = FastAPI()
 
 
-@app.get("/sugestoes")
+
+@app.get("/sugestoes/")
 async def verifica_sugestoes():
 
     connection = create_connection()
@@ -26,10 +27,14 @@ async def verifica_sugestoes():
     )
 
 
+    connection.close()
+
+
     return JSONResponse(
         content=sugestoes,
         status_code=200
     )
+
 
 
 
@@ -53,14 +58,17 @@ async def verifica_sugestao(id: str):
     )
 
 
+    connection.close()
+
+
     if not sugestao:
         raise HTTPException(
             status_code=404,
-            detail="Sugestao não encontrada"
+            detail="Sugestão não encontrada"
         )
 
 
     return JSONResponse(
-        content=sugestao,
+        content=sugestao[0],
         status_code=200
     )
